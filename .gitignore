@@ -1,0 +1,5 @@
+# 项目排除路径
+/common/target/
+/frontCar/node_modules/
+/mapper/target/
+/model/target/

@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "vue": "^3.2.47",
+    "vue-cli": "^2.9.6",
+    "webpack": "^5.77.0"
+  },
+  "scripts": {
+    "test": "",
+    "build": "webpack",
+    "serve": "vue-cli-service serve"
+  },
+  "devDependencies": {
+    "webpack-cli": "^5.0.1"
+  },
+  "name": "frontcar",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "5500",
+  "author": "",
+  "license": "ISC"
+}
