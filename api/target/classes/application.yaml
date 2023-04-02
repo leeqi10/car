@@ -8,7 +8,7 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 500MB
-  #数据库资源设置
+  #数据库资源设置 私密
   datasource:
     url: jdbc:mysql://8.130.74.237:3306/bytejump?characterEncoding=utf-8&serverTimezone=UTC
     username: root
