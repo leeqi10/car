@@ -2,6 +2,7 @@ package com.xhu.mapper;
 
 import com.xhu.entity.Video;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author leeqi10
  * @since 2023-04-01
  */
+@Mapper
 public interface VideoMapper extends BaseMapper<Video> {
 
 }

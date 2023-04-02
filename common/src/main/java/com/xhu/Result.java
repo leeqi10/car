@@ -29,6 +29,17 @@ public class Result {
     public Result(Object data){
 
     }
+    public Result(ResponseStatusEnum responseStatusEnum,Object data){
+        this.status=responseStatusEnum.getI();
+        this.msg=responseStatusEnum.getStr();
+        this.success=responseStatusEnum.isB();
+        this.data=data;
+    }
+    public Result(ResponseStatusEnum responseStatusEnum){
+        this.status=responseStatusEnum.getI();
+        this.msg=responseStatusEnum.getStr();
+        this.success=responseStatusEnum.isB();
+    }
 
     public Result(){}
 
