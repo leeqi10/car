@@ -31,4 +31,17 @@ public class IndexController {
             return new Result(ResponseStatusEnum.FAILED);
         }
     }
+    @PostMapping("/login")
+    @ResponseBody
+    public Result login(@RequestBody User requser){
+        String username=requser.getUsername();
+        String password=requser.getPassword();
+        User user=userService.LoginBy(username,password);
+        if (user!=null){
+            return new Result(ResponseStatusEnum.SUCCESS,user);
+        }
+        else {
+            return new Result(ResponseStatusEnum.FAILED);
+        }
+    }
 }
