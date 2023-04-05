@@ -40,14 +40,28 @@
 				if(this.username && this.password){
 					// 通过
 					uni.request({
-						url:"https://mock.apifox.cn/m1/2227626-0-default/login",
+						url:"http://localhost:8023/sayHi",
 						method:"POST",
+						header:{
+							'Content-Type':'application/json'
+						},
 						data:{
 							username:this.username,
 							password:this.password
 						},
 						success:(res)=>{
 							console.log("响应的结果", res)
+							if(res.status==0){
+								uni.showToast({
+									title:res.data.msg,
+									icon:"success"
+								})
+							}else{
+								uni.showToast({
+									title:res.data.msg,
+									icon:"error"
+								})
+							}
 							// 根据响应的结果判断是否登录成功
 							// 成功的话页面跳转+存储数据
 							

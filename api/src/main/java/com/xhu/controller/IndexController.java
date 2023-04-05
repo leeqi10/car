@@ -20,12 +20,14 @@ public class IndexController {
 
     @ApiImplicitParam(name = "name",value = "姓名",required = true)
     @ApiOperation(value = "向客人问好")
-    @GetMapping("/sayHi")
+    @PostMapping("/sayHi")
     @ResponseBody
-    public Result sayHi(@RequestParam(value = "name")String name, @RequestParam(value = "password")String password){
-        User user = userService.LoginBy(name, password);
+    public Result sayHi(@RequestBody User user){
+        String username = user.getUsername();
+        String password = user.getPassword();
+        User user1 = userService.LoginBy(username, password);
         if (user!=null){
-            return new Result(ResponseStatusEnum.SUCCESS,user);
+            return new Result(ResponseStatusEnum.SUCCESS,user1);
         }
         else {
             return new Result(ResponseStatusEnum.FAILED);
