@@ -26,7 +26,7 @@ public class IndexController {
         String username = user.getUsername();
         String password = user.getPassword();
         User user1 = userService.LoginBy(username, password);
-        if (user!=null){
+        if (user1!=null){
             return new Result(ResponseStatusEnum.SUCCESS,user1);
         }
         else {
