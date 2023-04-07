@@ -1,16 +1,8 @@
 # port配置
 server:
-  port: 8023
-#数据源配置
+  port: 8022
 spring:
-  #文件大小设置
-  servlet:
-    multipart:
-      max-file-size: 100MB
-      max-request-size: 500MB
-  #数据库资源设置 私密
-  datasource:
-    url: jdbc:mysql://8.130.74.237:3306/bytejump?characterEncoding=utf-8&serverTimezone=UTC
-    username: root
-    password: TANGqi0924
-    driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: api
+  profiles:
+    active: mapper,service,api
