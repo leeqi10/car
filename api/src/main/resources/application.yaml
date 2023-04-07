@@ -1,8 +1,5 @@
-# port配置
-server:
-  port: 8022
 spring:
   application:
     name: api
   profiles:
-    active: mapper,service,api
+    active: mapper,service,api,common,dev
