@@ -11,6 +11,6 @@ spring:
   #数据库资源设置 私密
   datasource:
     url: jdbc:mysql://8.130.74.237:3306/bytejump?characterEncoding=utf-8&serverTimezone=UTC
-    username: root
-    password: TANGqi0924
+    username: person
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver

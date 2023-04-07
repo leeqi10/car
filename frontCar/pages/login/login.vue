@@ -10,7 +10,6 @@
 		<input type="text" class="inp" v-model="username" placeholder="请输入用户名">
 		<!-- 密码 -->
 		<input type="text" class="inp" v-model="password" placeholder="请输入密码" password>
-		
 		<!-- 按钮 -->
 		<button type="primary" class="btn" v-on:click="login">登录</button>
 		
