@@ -50,10 +50,15 @@
 						},
 						success:(res)=>{
 							console.log("响应的结果", res)
-							if(res.status==0){
+							console.log("响应的结果", res.data.data.token)
+							if(res.data.status==200){
+								uni.setStorageSync('token',res.data.data.token)
 								uni.showToast({
 									title:res.data.msg,
 									icon:"success"
+								})
+								uni.redirectTo({
+									url:"/pages/index/index"
 								})
 							}else{
 								uni.showToast({
