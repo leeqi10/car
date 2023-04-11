@@ -2,20 +2,21 @@
 	<view class="destination">
 		<!-- 主内容 -->
 		<view class="content">
+      <!--    无目的地时  -->
 			<!-- 第一个部分-->
 			<view class="item">
 				<image src="../../static/redaddress.png" mode=""></image>
 				<input type="text" @input="handleInput"/>
 			</view>
-			
+
 			<!-- 第二部分-->
 			<view class="list" >
 				<!-- 列表每一项-->
-			
+
 				<view class="item" @click="toIndex(item)" v-for="item in list":key="item.id" >
 					<image src="../../static/address.png" mode=""></image>
 					<!-- 文本内容-->
-					
+
 					<view class="text">
 						<view class="title">
 							{{item.name}}
@@ -60,16 +61,16 @@
 				})
 				//
 			},
-			
+
 			toIndex(item){
 				console.log(item)
-				
+
 				uni.setStorageSync('target',JSON.stringify(item))
 				uni.redirectTo({
 					url:"/pages/index/index"
 				})
 			}
-		
+
 		}
 	}
 </script>
@@ -85,7 +86,7 @@
 	.destination .content{
 		box-shadow: 1px 1px 2px 2px #eee;
 		height: 100%;
-		
+
 	}
 	.destination .content image{
 		width: 70rpx;
@@ -99,7 +100,7 @@
 		align-items: center;
 	}
 	.destination .content .item .text{
-		
+
 	}
 	.destination .content .item .text .desc{
 		font-size: 24rpx;
@@ -110,5 +111,5 @@
 		height: calc(100%-120rpx);
 		overflow: scroll;
 	}
-	
+
 </style>
