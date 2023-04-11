@@ -7,7 +7,7 @@
 		
 		<!-- 两个输入框 -->
 		<!-- 用户名 -->
-		<input type="text" class="inp" v-model="username" placeholder="请输入用户名">
+		<input type="text" class="inp" v-model="user" placeholder="请输入用户名">
 		<!-- 密码 -->
 		<input type="text" class="inp" v-model="password" placeholder="请输入密码" password>
 		<!-- 按钮 -->
@@ -25,7 +25,7 @@
 	export default {
 		data() {
 			return {
-				username:"",
+				user:"",
 				password:""
 			}
 		},
@@ -36,16 +36,16 @@
 				// 2. 验证通过：发请求
 				// 3. 验证不通过：提示用户
 				
-				if(this.username && this.password){
+				if(this.user && this.password){
 					// 通过
 					uni.request({
-						url:"http://localhost:8023/sayHi",
+						url:"http://localhost:8023/login",
 						method:"POST",
 						header:{
 							'Content-Type':'application/json'
 						},
 						data:{
-							username:this.username,
+							user:this.user,
 							password:this.password
 						},
 						success:(res)=>{

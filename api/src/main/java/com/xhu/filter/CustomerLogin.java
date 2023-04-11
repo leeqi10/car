@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xhu.ResponseStatusEnum;
 import com.xhu.Result;
 import com.xhu.annotation.FilterLogin;
-import com.xhu.entity.User;
-import com.xhu.mapper.UserMapper;
+import com.xhu.entity.Passenger;
+import com.xhu.mapper.PassengerMapper;
 import com.xhu.utils.JwtUtil;
 import com.xhu.utils.RedisCache;
 import io.jsonwebtoken.Claims;
@@ -28,7 +28,7 @@ public class CustomerLogin implements HandlerInterceptor {
     @Autowired
     private RedisCache redisCache;
     @Autowired
-    private UserMapper userMapper;
+    private PassengerMapper passengerMapper;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
@@ -49,12 +49,12 @@ public class CustomerLogin implements HandlerInterceptor {
                 }
                 //从redis获取用户信息
                 String redisKey = "login:" + userId;
-                User loginUser = redisCache.getCacheObject(redisKey);
+                Passenger loginUser = redisCache.getCacheObject(redisKey);
                 //为空的情况下
                 if (Objects.isNull(loginUser)){
-                    LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-                    queryWrapper.eq(User::getUsername, loginUser.getUsername());
-                    User user = userMapper.selectOne(queryWrapper);
+                    LambdaQueryWrapper<Passenger> queryWrapper = new LambdaQueryWrapper<>();
+                    queryWrapper.eq(Passenger::getUser, loginUser.getUser());
+                    Passenger user = passengerMapper.selectOne(queryWrapper);
                     if (user==null){
                         response.setCharacterEncoding("UTF-8");
                         response.setContentType("application/json");

@@ -10,7 +10,7 @@ spring:
       max-request-size: 500MB
   #数据库资源设置 私密
   datasource:
-    url: jdbc:mysql://8.130.74.237:3306/bytejump?characterEncoding=utf-8&serverTimezone=UTC
-    username: person
+    url: jdbc:mysql://8.130.74.237:3306/car?characterEncoding=utf-8&serverTimezone=UTC
+    username: car
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver

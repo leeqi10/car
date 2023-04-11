@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhu.mapper.DriverMapper">
+
+    <resultMap id="BaseResultMap" type="com.xhu.entity.Driver">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="user" column="user" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="tel" column="tel" jdbcType="VARCHAR"/>
+            <result property="idno" column="idno" jdbcType="VARCHAR"/>
+            <result property="sex" column="sex" jdbcType="VARCHAR"/>
+            <result property="jsz" column="jsz" jdbcType="VARCHAR"/>
+            <result property="carno" column="carno" jdbcType="VARCHAR"/>
+            <result property="catype" column="catype" jdbcType="VARCHAR"/>
+            <result property="money" column="money" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user,password,
+        name,tel,idno,
+        sex,jsz,carno,
+        catype,money
+    </sql>
+</mapper>
