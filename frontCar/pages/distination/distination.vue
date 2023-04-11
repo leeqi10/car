@@ -2,7 +2,7 @@
 	<view class="destination">
 		<!-- 主内容 -->
 		<view class="content">
-      <!--      -->
+      <!--   目的地   -->
 			<!-- 第一个部分-->
 			<view class="item">
 				<image src="../../static/redaddress.png" mode=""></image>
