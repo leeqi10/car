@@ -50,6 +50,9 @@ public class CustomerLogin implements HandlerInterceptor {
                 //从redis获取用户信息
                 String redisKey = "login:" + userId;
                 Passenger loginUser = redisCache.getCacheObject(redisKey);
+                if (loginUser!=null){
+                    return true;
+                }
                 //为空的情况下
                 if (Objects.isNull(loginUser)){
                     LambdaQueryWrapper<Passenger> queryWrapper = new LambdaQueryWrapper<>();
