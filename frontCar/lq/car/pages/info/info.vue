@@ -99,6 +99,7 @@
 
 <style lang="scss">
 	.info{
+		height: 100vw;
 		.header{
 			display:flex;
 			align-items: center;
@@ -155,19 +156,19 @@
 		.logout{
 			.btn1{
 				width: 80%;
-				margin-top: 200rpx;
+				margin-top: 100rpx;
 				border-radius: 30rpx;
 			}
 			.btn2{
 				width: 80%;
-				margin-top: 50rpx;
+				margin-top: 30rpx;
 				border-radius: 30rpx;
 				background-color: darkgray;
 			}
 			
 		}
 		.tip{
-			margin-top: 30rpx;
+			margin-top: 20rpx;
 			text-align: center;
 			color: grey;
 		}

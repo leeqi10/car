@@ -137,7 +137,7 @@
 			background-color: white;
 			position: fixed; //固定地位
 			left: 1vw; //偏移值
-			bottom: 1vw; //偏移值
+			bottom: 15vw; //偏移值
 			box-shadow: 1px 1px 4px 4px #ccc;
 
 			.maskItem {
