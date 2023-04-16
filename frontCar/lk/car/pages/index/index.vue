@@ -20,7 +20,7 @@
 				<text class="now">当前</text>
 			</view>
 
-			
+
 			<!-- 第二部分 -->
 			<view class="maskItem" @click="toDestination">
 				<image class="pic" src="../../static/redaddress.png" mode=""></image>
@@ -32,7 +32,7 @@
 			<view class="maskItem" v-if="dest">
 				<button type="primary" style="width: 100%;" @click="getDriverStatus">一键叫车</button>
 			</view>
-		
+
 
 		</view>
 	</view>
@@ -95,7 +95,7 @@
 						this.longitude = res[0].longitude;
 						this.latitude = res[0].latitude;
 
-						//获取位置信息之后，添加标记点	
+						//获取位置信息之后，添加标记点
 						let obj = {
 							id: 1,
 							latitude: this.latitude,
@@ -123,47 +123,49 @@
 			},
 
 
-			// 获取司机状态
-			getDriverStatus() {
-				// 模拟获取司机状态，
-				this.driverStatusInfo = '正在为您匹配司机...';
-				// 以下请求，等待后端传  司机状态码
-				// uni.request({
-				// 	url: "http://localhost:8023/",
-				// 	success: (res) => {
-				// 		console.log(res);
-				// 		this.driverStatus=res.data.driverStatus;
-				// 		if (driverStatus === 0) {
-				// 			this.driverStatusInfo = '请稍候...'
-				// 		} else if (driverStatus === 1) {
-				// 			this.driverStatusInfo = '司机已接单！'
-				// 		} else if (driverStatus === 2) {
-				// 			this.driverStatusInfo = '无司机接单，可重新尝试！'
-				// 		}
-				// 	},
-				// 	fail: (error) => {
-				// 		uni.showToast({
-				// 			icon: 'none',
-				// 			title: '叫车失败,请稍后重试'
-				// 		});
-				// 	}
-				// })
+      // 获取司机状态
+      getDriverStatus() {
+        // 模拟获取司机状态，
+        this.driverStatusInfo = '正在为您匹配司机...';
+        // 以下请求，等待后端传  司机状态码、等信息      每隔一段时间发起请求，查看是否有司机接单
+        // this.timer = setInterval(() => {
+        // uni.request({
+        // 	url: "http://localhost:8023/",
+        // 	success: (res) => {
+        // 		console.log(res);
+        // 		this.driverStatus=res.data.driverStatus;
+        // 		if (driverStatus === 0) {
+        // 			this.driverStatusInfo = '请稍候...'
+        // 		} else if (driverStatus === 1) {
+        // 			this.driverStatusInfo = '司机已接单！'
+        // 		} else if (driverStatus === 2) {
+        // 			this.driverStatusInfo = '无司机接单，可重新尝试！'
+        // 		}
+        // 	},
+        // 	fail: (error) => {
+        // 		uni.showToast({
+        // 			icon: 'none',
+        // 			title: '叫车失败,请稍后重试'
+        // 		});
+        // 	}
+        // })
 
+        // }, 5000);
 
-				// 定时器模拟，获取司机状态并刷新状态栏   测试效果，后端写好后 删除
-				this.timer = setInterval(() => {
-					// 模拟获取司机状态，实际项目中应调用 API 获取司机状态
-					let status = Math.floor(Math.random() * 3);
-					// 根据状态设置状态栏文本
-					if (status === 0) {
-						this.driverStatusInfo = '请稍候...'
-					} else if (status === 1) {
-						this.driverStatusInfo = '司机已接单！'
-					} else if (status === 2) {
-						this.driverStatusInfo = '无司机接单，可重新尝试！'
-					}
-				}, 7000);
-			}
+        // 定时器模拟，获取司机状态并刷新状态栏   测试效果，后端写好后 删除
+        this.timer = setInterval(() => {
+          // 模拟获取司机状态，实际项目中应调用 API 获取司机状态
+          let status = Math.floor(Math.random() * 3);
+          // 根据状态设置状态栏文本
+          if (status === 0) {
+            this.driverStatusInfo = '请稍候...'
+          } else if (status === 1) {
+            this.driverStatusInfo = '司机已接单！'
+          } else if (status === 2) {
+            this.driverStatusInfo = '无司机接单，可重新尝试！'
+          }
+        }, 7000);
+      }
 
 
 
