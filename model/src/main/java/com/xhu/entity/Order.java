@@ -19,7 +19,7 @@ public class Order implements Serializable {
     /**
      * 主键，自增。（识别订单）
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**

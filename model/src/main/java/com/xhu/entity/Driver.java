@@ -17,7 +17,7 @@ public class Driver implements Serializable {
     /**
      * 主键，自增。
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**

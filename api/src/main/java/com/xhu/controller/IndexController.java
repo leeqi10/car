@@ -11,11 +11,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Api(tags = "首页模块")
 @RestController
@@ -86,6 +86,17 @@ public class IndexController {
      */
     public Result sendCode(@RequestBody Passenger passenger) throws Exception {
         String tel = passenger.getTel();
+        //手机号不能为空
+        if (tel==null){
+            return new Result(ResponseStatusEnum.FAILED,"手机号不能为空");
+        }
+        //手机号的正则表达式
+        String regex = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(16[5,6])|(17[0-8])|(18[0-9])|(19[1、5、8、9]))\\d{8}$";
+        Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(tel);
+        if (!m.matches()){
+            new Result(ResponseStatusEnum.FAILED,"手机号不合法");
+        }
         //验证码
         int code;
         code= (int) ((Math.random()*9+1)*1000);

@@ -6,6 +6,7 @@ import com.xhu.entity.Passenger;
 import com.xhu.service.PassengerService;
 import com.xhu.mapper.PassengerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,13 +21,15 @@ public class PassengerServiceImpl extends ServiceImpl<PassengerMapper, Passenger
     private  PassengerMapper passengerMapper;
     @Override
     public Passenger LoginByUser(String user, String password) {
+        //查询用户
         LambdaQueryWrapper<Passenger> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(Passenger::getUser,user);
         Passenger passenger = passengerMapper.selectOne(lambdaQueryWrapper);
+
         if (passenger==null){
             return null;
         }
-        if (passenger.getPassword().equals(password)){
+        if (password.equals(passenger.getPassword())){
             return passenger;
         }
         else {
@@ -36,6 +39,8 @@ public class PassengerServiceImpl extends ServiceImpl<PassengerMapper, Passenger
 
     @Override
     public boolean registerByUser(String user, String password) {
+        //密码加密
+        //用户查询
         LambdaQueryWrapper<Passenger> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(Passenger::getUser,user);
         Passenger passenger = passengerMapper.selectOne(lambdaQueryWrapper);
@@ -43,9 +48,10 @@ public class PassengerServiceImpl extends ServiceImpl<PassengerMapper, Passenger
             return false;
         }
         else{
-            passenger.setUser(user);
-            passenger.setPassword(password);
-            passengerMapper.insert(passenger);
+            Passenger passenger1 = new Passenger();
+            passenger1.setUser(user);
+            passenger1.setPassword(password);
+            passengerMapper.insert(passenger1);
             return true;
         }
     }
