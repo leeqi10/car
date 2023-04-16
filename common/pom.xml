@@ -50,11 +50,13 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.0</version>
         </dependency>
+        <!--阿里云短信验证 -->
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>alibabacloud-dysmsapi20170525</artifactId>
             <version>2.0.23</version>
         </dependency>
+
         <!-- 引入 redis 依赖 -->
         <!--<dependency>-->
         <!--<groupId>org.springframework.boot</groupId>-->

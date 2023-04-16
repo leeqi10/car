@@ -11,12 +11,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Api(tags = "首页模块")
 @RestController
+@RequestMapping("/user")
 @CrossOrigin
 public class IndexController {
     @Autowired
@@ -26,30 +29,72 @@ public class IndexController {
     @Autowired
     private SendSms sendSms;
     @ApiOperation(value = "用户登录")
-    @PostMapping("/login")
+    @PostMapping("/login/{code}")
     @ResponseBody
     /**
      * @params passenger 用户表
      * @return Result 返回的结果解析
      */
-    public Result login(@RequestBody Passenger passenger) throws Exception {
+    public Result login(@RequestBody Passenger passenger,@PathVariable int code) throws Exception {
         String username=passenger.getUser();
         String password=passenger.getPassword();
+        String phone = passenger.getTel();
+        //登录
         Passenger user=passengerService.LoginByUser(username,password);
-        Map<String,Object> map = new HashMap<>();
-        if (user!=null){
+        if (user!=null&&code==0){
             String token = JwtUtil.createJWT(String.valueOf(user.getUser()), 60 * 60 *1000L);
             redisCache.setCacheObject("login:"+user.getUser(), user,100, TimeUnit.HOURS);
-            int code;
-            code= (int) (Math.random()*9+1);
-            sendSms.setCode(code);
-            sendSms.send();
+            Map<String,Object> map = new HashMap<>();
             map.put("token",token);
             map.put("user",user);
-            return new Result(ResponseStatusEnum.SUCCESS,map);
+            return new Result(ResponseStatusEnum.LOGIN,map);
         }
-        else {
-            return new Result(ResponseStatusEnum.FAILED);
+        if (user==null&&code==0){
+            return new Result(ResponseStatusEnum.FAILED,"登录失败");
         }
+        //注册
+        try {
+            int codePlus = redisCache.getCacheObject(phone);
+            if (code==codePlus) {
+                boolean status = false;
+                status = passengerService.registerByUser(username, password);
+                if (status) {
+                    String token = JwtUtil.createJWT(String.valueOf(passenger.getUser()), 60 * 60 *1000L);
+                    redisCache.setCacheObject("login:"+passenger.getUser(), passenger,100, TimeUnit.HOURS);
+                    Map<String,Object> map = new HashMap<>();
+                    map.put("token",token);
+                    map.put("user",passenger);
+                    return new Result(ResponseStatusEnum.REGISTER,map);
+                }
+                else {
+                    return new Result(ResponseStatusEnum.FAILED,"已有账户");
+                }
+            }
+            else {
+                return new Result(ResponseStatusEnum.FAILED,"验证码输入错误");
+            }
+        }catch (java.lang.IllegalArgumentException e){
+            return new Result(ResponseStatusEnum.FAILED,"验证码已经失效");
+        }
+    }
+    @ApiOperation(value = "发送验证码")
+    @PostMapping("/code")
+    @ResponseBody
+    /**
+     * @params passenger 用户表
+     * @return Result 返回的结果解析
+     */
+    public Result sendCode(@RequestBody Passenger passenger) throws Exception {
+        String tel = passenger.getTel();
+        //验证码
+        int code;
+        code= (int) ((Math.random()*9+1)*1000);
+        sendSms.send(code,tel);
+        //存入redis
+        redisCache.setCacheObject(tel,code,1, TimeUnit.HOURS);
+        Map<String,Object> map = new HashMap();
+        map.put("code",code);
+        map.put("passenger",passenger);
+        return new Result(ResponseStatusEnum.ok(),map);
     }
 }

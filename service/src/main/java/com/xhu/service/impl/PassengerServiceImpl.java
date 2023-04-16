@@ -33,6 +33,22 @@ public class PassengerServiceImpl extends ServiceImpl<PassengerMapper, Passenger
             return null;
         }
     }
+
+    @Override
+    public boolean registerByUser(String user, String password) {
+        LambdaQueryWrapper<Passenger> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(Passenger::getUser,user);
+        Passenger passenger = passengerMapper.selectOne(lambdaQueryWrapper);
+        if (passenger!=null){
+            return false;
+        }
+        else{
+            passenger.setUser(user);
+            passenger.setPassword(password);
+            passengerMapper.insert(passenger);
+            return true;
+        }
+    }
 }
 
 

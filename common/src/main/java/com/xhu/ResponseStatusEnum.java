@@ -7,7 +7,9 @@ import lombok.Data;
  */
 public enum ResponseStatusEnum {
     SUCCESS(200,true,"成功"),
-    FAILED(1,false,"失败")
+    FAILED(1,false,"失败"),
+    LOGIN(0,true,"登录成功"),
+    REGISTER(0,true,"注册成功")
     ;
 
     private int i ;

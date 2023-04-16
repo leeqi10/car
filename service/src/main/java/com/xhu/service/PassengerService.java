@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2023-04-11 22:25:58
 */
 public interface PassengerService extends IService<Passenger> {
-    public Passenger LoginByUser(String user,String password);
+     Passenger LoginByUser(String user,String password);
 
+     boolean registerByUser(String user,String password);
 }

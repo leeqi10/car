@@ -25,14 +25,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 @Configuration
 public class SendSms {
-    private int code;
-    public int getCode() {
-        return code;
-    }
-    public void setCode(int code) {
-        this.code = code;
-    }
-    public  void send() throws Exception {
+    public  void send(int code,String phoneNumber) throws Exception {
         // HttpClient Configuration
         /*HttpClient httpClient = new ApacheAsyncHttpClientBuilder()
                 .connectionTimeout(Duration.ofSeconds(10)) // Set the connection timeout time, the default is 10 seconds
@@ -73,8 +66,8 @@ public class SendSms {
         SendSmsRequest sendSmsRequest = SendSmsRequest.builder()
                 .signName("阿里云短信测试")
                 .templateCode("SMS_154950909")
-                .phoneNumbers("18282748174")
-                .templateParam("{\"code\":\""+getCode()+"\"}")
+                .phoneNumbers(phoneNumber)
+                .templateParam("{\"code\":\""+code+"\"}")
                 // Request-level configuration rewrite, can set Http request parameters, etc.
                 // .requestConfiguration(RequestConfiguration.create().setHttpHeaders(new HttpHeaders()))
                 .build();
