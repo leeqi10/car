@@ -6,6 +6,11 @@
 		</map>
 
 		<view class="mask">
+			<view class="status-bar">
+				<image class="trumpetpic" src="../../static/212喇叭.png"></image>
+				{{driverStatusInfo}}
+			</view>
+
 			<!-- 第一部分 -->
 			<view class="maskItem">
 				<image class="pic" src="../../static/myaddress.png" mode=""></image>
@@ -15,7 +20,7 @@
 				<text class="now">当前</text>
 			</view>
 
-			<!-- *******************************下面两个部分做了修改，加了v-model  v-if******************************************* -->
+			
 			<!-- 第二部分 -->
 			<view class="maskItem" @click="toDestination">
 				<image class="pic" src="../../static/redaddress.png" mode=""></image>
@@ -25,9 +30,9 @@
 			</view>
 			<!-- 第三部分 -->
 			<view class="maskItem" v-if="dest">
-				<button type="primary" style="width: 100%;">一键叫车</button>
+				<button type="primary" style="width: 100%;" @click="getDriverStatus">一键叫车</button>
 			</view>
-			<!-- ************************************************************************** -->
+		
 
 		</view>
 	</view>
@@ -49,8 +54,11 @@
 				markers: [],
 				//存放目的地
 				target: '',
-				dest: ''
-// *********************************添加了dest: ''*****************************************************************************************************
+				dest: '',
+				driverStatusInfo: '请稍候...', // 司机状态
+				driverStatus: '', //司机状态码
+				timer: null, // 定时器  模拟司机  测试效果，后端写好后 删除
+
 			}
 		},
 
@@ -65,7 +73,7 @@
 
 		},
 		onShow() { //只要页面显示
-		// *********************************onShow()这个函数里做了修改*****************************************************************************************************
+			// *********************************onShow()这个函数里做了修改*****************************************************************************************************
 			this.target = uni.getStorageSync('target') ? JSON.parse(uni.getStorageSync('target')) : '请选择目的地';
 			this.dest = this.target;
 			if (!this.dest || this.dest === '请选择目的地') {
@@ -112,7 +120,51 @@
 				uni.navigateTo({ //跳转后 保留页面
 					url: "/pages/destination/destination"
 				})
+			},
+
+
+			// 获取司机状态
+			getDriverStatus() {
+				// 模拟获取司机状态，
+				this.driverStatusInfo = '正在为您匹配司机...';
+				// 以下请求，等待后端传  司机状态码
+				// uni.request({
+				// 	url: "http://localhost:8023/",
+				// 	success: (res) => {
+				// 		console.log(res);
+				// 		this.driverStatus=res.data.driverStatus;
+				// 		if (driverStatus === 0) {
+				// 			this.driverStatusInfo = '请稍候...'
+				// 		} else if (driverStatus === 1) {
+				// 			this.driverStatusInfo = '司机已接单！'
+				// 		} else if (driverStatus === 2) {
+				// 			this.driverStatusInfo = '无司机接单，可重新尝试！'
+				// 		}
+				// 	},
+				// 	fail: (error) => {
+				// 		uni.showToast({
+				// 			icon: 'none',
+				// 			title: '叫车失败,请稍后重试'
+				// 		});
+				// 	}
+				// })
+
+
+				// 定时器模拟，获取司机状态并刷新状态栏   测试效果，后端写好后 删除
+				this.timer = setInterval(() => {
+					// 模拟获取司机状态，实际项目中应调用 API 获取司机状态
+					let status = Math.floor(Math.random() * 3);
+					// 根据状态设置状态栏文本
+					if (status === 0) {
+						this.driverStatusInfo = '请稍候...'
+					} else if (status === 1) {
+						this.driverStatusInfo = '司机已接单！'
+					} else if (status === 2) {
+						this.driverStatusInfo = '无司机接单，可重新尝试！'
+					}
+				}, 7000);
 			}
+
 
 
 		}
@@ -137,8 +189,47 @@
 			background-color: white;
 			position: fixed; //固定地位
 			left: 1vw; //偏移值
-			bottom: 1vw; //偏移值
+			bottom: 15vw; //偏移值
 			box-shadow: 1px 1px 4px 4px #ccc;
+
+			.status-bar {
+
+				position: relative;
+				/* 相对定位 */
+				width: 100vw;
+				/* 宽度和页面一致 */
+				height: 10vw;
+				/* 设置合适的高度 */
+				line-height: 10vw;
+				/* 将文本垂直居中 */
+				text-align: center;
+				/* 文本居中 */
+				bottom: 0;
+				/* 距离底部0 */
+				background-color: #fff;
+				/* 设置背景色 */
+				box-shadow: 2px 2px 4px 4px #ccc;
+				/* 添加阴影效果 */
+				font-size: 4vw;
+				/* 设置合适的字体大小 */
+				color: #333;
+				/* 设置文本颜色 */
+
+				.trumpetpic {
+					position: absolute;
+					/* 绝对定位 */
+					left: 40rpx;
+					/* 将喇叭固定在左侧 */
+					top: 50%;
+					/* 将喇叭垂直居中 */
+					transform: translateY(-50%);
+					/* 调整喇叭的垂直位置 */
+					width: 42rpx;
+					/* 设置喇叭图片的宽度 */
+					height: 42rpx;
+					/* 设置喇叭图片的高度 */
+				}
+			}
 
 			.maskItem {
 				height: 120rpx;

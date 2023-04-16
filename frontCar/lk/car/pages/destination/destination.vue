@@ -92,14 +92,14 @@
 			toIndex(item) {
 				console.log("当前点击的是", item);
 				uni.setStorageSync('target', JSON.stringify(item));
-				uni.redirectTo({
+				uni.switchTab({
 					url: "/pages/index/index"
 				})
 			},
 			//点击取消，跳转到主页
 			//*****************************取消按钮，跳转到index*************************************************************************************************
 			handleCancel() {
-				uni.redirectTo({
+				uni.switchTab({
 					url: '/pages/index/index'
 				})
 			}

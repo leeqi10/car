@@ -32,7 +32,8 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
             }
 			
         }
@@ -44,5 +45,28 @@
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},
-	"uniIdRouter": {}
+	"uniIdRouter": {},
+	
+	//底部导航
+	"tabBar": {
+			"color": "#7A7E83",
+			"selectedColor": "#3cc51f",
+			"borderStyle": "black",
+			"backgroundColor": "white",
+			"list": [
+				{
+					"pagePath": "pages/index/index",
+					"iconPath": "static/main.png",
+					"selectedIconPath": "static/act-main.png",
+					"text": "打车"
+				},
+				{
+					"pagePath": "pages/info/info",
+					"iconPath": "static/user.png",
+					"selectedIconPath": "static/act-user.png",
+					"text": "个人中心"
+				}
+			]
+		}
+	
 }

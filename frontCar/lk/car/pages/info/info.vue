@@ -16,8 +16,8 @@
 			<p class="message">{{this.nickname}}</p>
 			<image class="modify" src="../../static/right.png"></image></view>
 			<view class="profile">
-			<p class="text">生日</p>
-			<p class="message">{{this.birth}}</p>
+			<p class="text">电话</p>
+			<p class="message">{{this.tel}}</p>
 			<image class="modify" src="../../static/right.png"></image></view>
 			<view class="profile">
 			<p class="text">ID</p>
@@ -25,8 +25,8 @@
 			width: 250rpx;text-align: right;">{{this.id}}</p>
 			<image style="height: 50rpx; width: 50rpx;" src="../../static/right.png"></image></view>
 			<view class="profile">
-			<p class="text">年龄</p>
-			<p class="message">{{this.age}}</p>
+			<p class="text">姓名</p>
+			<p class="message">{{this.name}}</p>
 			<image class="modify" src="../../static/right.png"></image></view>
 			<view class="profile">
 			<p class="text">性别</p>
@@ -50,18 +50,47 @@
 	export default {
 		data() {
 			return {
-			nickname:"晓明",
-			birth:"3.12",
-			id:"56789",
-			age: 20,
-			sex:"男",
-			money: 200
+			token:'',
+			nickname:'',
+			id:"",
+			name: '',
+			sex:'',
+			money: '',
+			tel:''
 			}
+		},
+		onLoad(){
+			this.token=uni.getStorageSync('Token');
+			if(this.token=='') uni.switchTab({
+				url:"/pages/login/login"
+			})
+			console.log("token是",this.token);
+			uni.request({
+				url:"http://localhost:8023/user/info",
+				method:'GET',
+			 header:{
+				 'Content-Type':'application/json',
+				'token':this.token.toString()
+			            },
+				success: (res) => {
+					console.log(res.data);
+				 	 this.nickname=res.data.data.user;
+					 this.id=res.data.data.idno;
+					 this.name=res.data.data.name;
+					 this.sex=res.data.data.sex;
+					 this.money=res.data.data.money;
+					 this.tel=res.data.data.tel; 
+				},
+				fail: (err) => {
+					console.log("获取个人信息失败",err)
+				}
+			})
+			
 		},
 		methods: {
 			back(){
-				uni.navigateTo({
-					url: '../index/index',
+				uni.switchTab({
+					url: '/pages/index/index',
 				});
 			}
 		}
@@ -70,6 +99,7 @@
 
 <style lang="scss">
 	.info{
+		height: 100vw;
 		.header{
 			display:flex;
 			align-items: center;
@@ -126,19 +156,19 @@
 		.logout{
 			.btn1{
 				width: 80%;
-				margin-top: 200rpx;
+				margin-top: 100rpx;
 				border-radius: 30rpx;
 			}
 			.btn2{
 				width: 80%;
-				margin-top: 50rpx;
+				margin-top: 30rpx;
 				border-radius: 30rpx;
 				background-color: darkgray;
 			}
 			
 		}
 		.tip{
-			margin-top: 30rpx;
+			margin-top: 20rpx;
 			text-align: center;
 			color: grey;
 		}

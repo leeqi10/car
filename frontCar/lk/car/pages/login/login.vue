@@ -5,7 +5,7 @@
 		<view class="title">用户登录</view>
 		
 		<view>
-			<input class="info" placeholder="请输入账号" v-model="user"/>
+			<input class="info" placeholder="请输入账号" v-model="username"/>
 			<input class="info" password placeholder="请输入密码" v-model="password"/>					
 		</view>
 			
@@ -36,7 +36,7 @@
 		data() {
 			return {
 				graphicVerifyCode:"",
-				user:"",
+				username:"",
 				password:""
 			}
 		},
@@ -78,12 +78,12 @@
 					return
 				}
 				
-				if(this.user&&this.password){
+				if(this.username&&this.password){
 					uni.request({
 						url:"http://localhost:8023/login",
 						method:'POST',
 						data:{
-							user:this.user,
+							user:this.username,
 							password:this.password
 						},
 						success:(res)=>{
@@ -91,7 +91,9 @@
 							if(res.data.status==200){
 								//跳转到主页
 								uni.setStorageSync('userinfo',JSON.stringify(res.data.data))
-								uni.redirectTo({
+								uni.setStorageSync('Token',res.data.data.token);
+								console.log('token:',res.data.data.token)
+								uni.switchTab({
 									url:"/pages/index/index"
 								})
 							}else{
