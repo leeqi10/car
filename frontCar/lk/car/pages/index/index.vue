@@ -5,42 +5,24 @@
 		<map id="myMap" v-bind:longitude="longitude" v-bind:latitude="latitude" v-bind:markers="markers">
 		</map>
 
-		<view class="mask">
-			<view class="status-bar">
-				<image class="trumpetpic" src="../../static/212喇叭.png"></image>
-				{{driverStatusInfo}}
-			</view>
+		<Driver  :start="start" ref="driver" v-if="Type === '1'"></Driver>
 
-			<!-- 第一部分 -->
-			<view class="maskItem">
-				<image class="pic" src="../../static/myaddress.png" mode=""></image>
-				<view class="place">
-					{{start}}
-				</view>
-				<text class="now">当前</text>
-			</view>
+		<Passenger ref="passenger" :start="start" :driver-status-info="driverStatusInfo"
+			@get-driver-status="get_Driver_Status" v-if="Type === '0'">
 
+		</Passenger>
 
-			<!-- 第二部分 -->
-			<view class="maskItem" @click="toDestination">
-				<image class="pic" src="../../static/redaddress.png" mode=""></image>
-				<view v-model="dest" class="place">
-					{{target.name || '请选择目的地'}}
-				</view>
-			</view>
-			<!-- 第三部分 -->
-			<view class="maskItem" v-if="dest">
-				<button type="primary" style="width: 100%;" @click="getDriverStatus">一键叫车</button>
-			</view>
-
-
-		</view>
+			
 	</view>
 </template>
 
 <script>
 	//1.导入插件
 	import amapFile from '../../libs/amap-wx.130.js'
+	//导入子组件
+	import Passenger from '../../components/Passenger/Passenger.vue'
+	import Driver from '../../components/Driver/Driver.vue'
+
 
 	export default {
 		data() {
@@ -52,17 +34,23 @@
 				latitude: '',
 				//编辑点相关的信息
 				markers: [],
-				//存放目的地
-				target: '',
-				dest: '',
 				driverStatusInfo: '请稍候...', // 司机状态
 				driverStatus: '', //司机状态码
 				timer: null, // 定时器  模拟司机  测试效果，后端写好后 删除
+				Type: '' //用户的类型
 
 			}
 		},
 
 		onLoad() {
+			//验证token 未登录用户进行拦截
+			this.token = uni.getStorageSync('Token');
+			if (this.token === '') {
+				uni.navigateTo({
+					url: '/pages/login/login'
+				})
+				return
+			}
 			//2.创建实例对象以便于后面可以调用它的方法
 			this.myAmapFun = new amapFile.AMapWX({
 				key: 'ceb72741060af13228ee8c0eb730b40d'
@@ -70,18 +58,29 @@
 
 			//3.调用调用方法获取位置信息
 			this.getLocation();
+			//获取storage中Type的值，判断用户的类型
+			this.Type = uni.getStorageSync('Type');
+			console.log("this.Type:" + this.Type);
 
 		},
 		onShow() { //只要页面显示
-			// *********************************onShow()这个函数里做了修改*****************************************************************************************************
-			this.target = uni.getStorageSync('target') ? JSON.parse(uni.getStorageSync('target')) : '请选择目的地';
-			this.dest = this.target;
-			if (!this.dest || this.dest === '请选择目的地') {
-				this.dest = '';
+			
+			const passenger = this.$refs.passenger; // 引用子组件 A
+			this.$nextTick(() => {
+			if (passenger.show) { 
+				passenger.show(); // 调用子组件  的 show 方法
 			}
-
-			//根据需求，是否要保留上次所选的目的地，这里不保留
-			uni.removeStorageSync('target');
+			});
+			
+			const driver = this.$refs.driver; // 引用子组件 B
+			this.$nextTick(() => {
+				if (driver.show) { 
+					driver.show(); // 调用子组件  的 show 方法
+				}
+			});
+			
+			
+			
 		},
 		methods: {
 
@@ -92,10 +91,11 @@
 					success: (res) => {
 						console.log('当前位置信息', res);
 						this.start = res[0].name;
+						console.log(this.start)
 						this.longitude = res[0].longitude;
 						this.latitude = res[0].latitude;
 
-						//获取位置信息之后，添加标记点
+						//获取位置信息之后，添加标记点	
 						let obj = {
 							id: 1,
 							latitude: this.latitude,
@@ -115,60 +115,6 @@
 			},
 
 
-			//跳转到toDestination
-			toDestination() {
-				uni.navigateTo({ //跳转后 保留页面
-					url: "/pages/destination/destination"
-				})
-			},
-
-
-      // 获取司机状态
-      getDriverStatus() {
-        // 模拟获取司机状态，
-        this.driverStatusInfo = '正在为您匹配司机...';
-        // 以下请求，等待后端传  司机状态码、等信息      每隔一段时间发起请求，查看是否有司机接单
-        // this.timer = setInterval(() => {
-        // uni.request({
-        // 	url: "http://localhost:8023/",
-        // 	success: (res) => {
-        // 		console.log(res);
-        // 		this.driverStatus=res.data.driverStatus;
-        // 		if (driverStatus === 0) {
-        // 			this.driverStatusInfo = '请稍候...'
-        // 		} else if (driverStatus === 1) {
-        // 			this.driverStatusInfo = '司机已接单！'
-        // 		} else if (driverStatus === 2) {
-        // 			this.driverStatusInfo = '无司机接单，可重新尝试！'
-        // 		}
-        // 	},
-        // 	fail: (error) => {
-        // 		uni.showToast({
-        // 			icon: 'none',
-        // 			title: '叫车失败,请稍后重试'
-        // 		});
-        // 	}
-        // })
-
-        // }, 5000);
-
-        // 定时器模拟，获取司机状态并刷新状态栏   测试效果，后端写好后 删除
-        this.timer = setInterval(() => {
-          // 模拟获取司机状态，实际项目中应调用 API 获取司机状态
-          let status = Math.floor(Math.random() * 3);
-          // 根据状态设置状态栏文本
-          if (status === 0) {
-            this.driverStatusInfo = '请稍候...'
-          } else if (status === 1) {
-            this.driverStatusInfo = '司机已接单！'
-          } else if (status === 2) {
-            this.driverStatusInfo = '无司机接单，可重新尝试！'
-          }
-        }, 7000);
-      }
-
-
-
 		}
 
 
@@ -185,80 +131,7 @@
 			height: 100vh;
 		}
 
-		//
-		.mask {
-			width: 98vw;
-			background-color: white;
-			position: fixed; //固定地位
-			left: 1vw; //偏移值
-			bottom: 15vw; //偏移值
-			box-shadow: 1px 1px 4px 4px #ccc;
 
-			.status-bar {
-
-				position: relative;
-				/* 相对定位 */
-				width: 100vw;
-				/* 宽度和页面一致 */
-				height: 10vw;
-				/* 设置合适的高度 */
-				line-height: 10vw;
-				/* 将文本垂直居中 */
-				text-align: center;
-				/* 文本居中 */
-				bottom: 0;
-				/* 距离底部0 */
-				background-color: #fff;
-				/* 设置背景色 */
-				box-shadow: 2px 2px 4px 4px #ccc;
-				/* 添加阴影效果 */
-				font-size: 4vw;
-				/* 设置合适的字体大小 */
-				color: #333;
-				/* 设置文本颜色 */
-
-				.trumpetpic {
-					position: absolute;
-					/* 绝对定位 */
-					left: 40rpx;
-					/* 将喇叭固定在左侧 */
-					top: 50%;
-					/* 将喇叭垂直居中 */
-					transform: translateY(-50%);
-					/* 调整喇叭的垂直位置 */
-					width: 42rpx;
-					/* 设置喇叭图片的宽度 */
-					height: 42rpx;
-					/* 设置喇叭图片的高度 */
-				}
-			}
-
-			.maskItem {
-				height: 120rpx;
-				border: 2px solid #eee;
-				display: flex; //内容浮动
-				padding: 0 40rpx;
-				align-items: center; //内容垂直居中
-
-				.pic {
-					width: 50rpx;
-					height: 50rpx;
-					margin-right: 40rpx;
-				}
-
-				.place {
-					flex: 1; //占满剩下的位置
-					color: #999;
-				}
-
-				.now {
-					background-color: cadetblue;
-					color: #fff;
-					font-size: 20rpx;
-					padding: 8rpx;
-				}
-			}
-		}
 
 	}
 </style>

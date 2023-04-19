@@ -38,6 +38,34 @@
 			
         }
 		
+        ,{
+            "path" : "pages/tellogin/tellogin",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+		{
+			"path": "pages/orderinfo/orderinfo",
+			"style": {
+		
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/sign-in/sign-in",
+			"style": {
+		
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"navigationBarTitleText": ""
+			}
+		}
+        
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -50,20 +78,20 @@
 	//底部导航
 	"tabBar": {
 			"color": "#7A7E83",
-			"selectedColor": "#3cc51f",
+			"selectedColor": "#1296db",
 			"borderStyle": "black",
 			"backgroundColor": "white",
 			"list": [
 				{
 					"pagePath": "pages/index/index",
-					"iconPath": "static/main.png",
-					"selectedIconPath": "static/act-main.png",
+					"iconPath": "static/car.png",
+					"selectedIconPath": "static/car-active.png",
 					"text": "打车"
 				},
 				{
 					"pagePath": "pages/info/info",
-					"iconPath": "static/user.png",
-					"selectedIconPath": "static/act-user.png",
+					"iconPath": "static/person.png",
+					"selectedIconPath": "static/person-active.png",
 					"text": "个人中心"
 				}
 			]

@@ -61,17 +61,20 @@
 		},
 		onLoad(){
 			this.token=uni.getStorageSync('Token');
-			if(this.token=='') uni.switchTab({
-				url:"/pages/login/login"
-			})
+			if(this.token===''){
+				uni.navigateTo({
+					url:'/pages/login/login'
+				})
+				return
+			}
 			console.log("token是",this.token);
 			uni.request({
 				url:"http://localhost:8023/user/info",
 				method:'GET',
 			 header:{
 				 'Content-Type':'application/json',
-				'token':this.token.toString()
-			            },
+				 'token':this.token
+			    },
 				success: (res) => {
 					console.log(res.data);
 				 	 this.nickname=res.data.data.user;
