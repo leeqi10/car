@@ -87,6 +87,11 @@ public class Order implements Serializable {
      */
     private String milege;
 
+    /**
+     * 订单状态
+     */
+    private String status;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -115,7 +120,8 @@ public class Order implements Serializable {
             && (this.getReplytime() == null ? other.getReplytime() == null : this.getReplytime().equals(other.getReplytime()))
             && (this.getEndtime() == null ? other.getEndtime() == null : this.getEndtime().equals(other.getEndtime()))
             && (this.getCost() == null ? other.getCost() == null : this.getCost().equals(other.getCost()))
-            && (this.getMilege() == null ? other.getMilege() == null : this.getMilege().equals(other.getMilege()));
+            && (this.getMilege() == null ? other.getMilege() == null : this.getMilege().equals(other.getMilege()))
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
     }
 
     @Override
@@ -136,6 +142,7 @@ public class Order implements Serializable {
         result = prime * result + ((getEndtime() == null) ? 0 : getEndtime().hashCode());
         result = prime * result + ((getCost() == null) ? 0 : getCost().hashCode());
         result = prime * result + ((getMilege() == null) ? 0 : getMilege().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         return result;
     }
 
@@ -159,6 +166,7 @@ public class Order implements Serializable {
         sb.append(", endtime=").append(endtime);
         sb.append(", cost=").append(cost);
         sb.append(", milege=").append(milege);
+        sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
