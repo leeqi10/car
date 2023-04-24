@@ -108,4 +108,5 @@ public class IndexController {
         map.put("passenger",passenger);
         return new Result(ResponseStatusEnum.ok(),map);
     }
+
 }

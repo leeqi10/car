@@ -2,11 +2,12 @@ package com.xhu.controller;
 
 import com.xhu.ResponseStatusEnum;
 import com.xhu.Result;
+import com.xhu.annotation.FilterLogin;
 import com.xhu.config.SendSms;
 import com.xhu.entity.Driver;
-import com.xhu.entity.Passenger;
+import com.xhu.entity.Orderplus;
 import com.xhu.service.DriverService;
-import com.xhu.service.PassengerService;
+import com.xhu.service.OrderplusService;
 import com.xhu.utils.JwtUtil;
 import com.xhu.utils.RedisCache;
 import io.swagger.annotations.Api;
@@ -14,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +31,8 @@ public class DriverController {
     private RedisCache redisCache;
     @Autowired
     private SendSms sendSms;
+    @Autowired
+    private OrderplusService orderplusService;
     @ApiOperation(value = "用户登录")
     @PostMapping("/login/{code}")
     @ResponseBody
@@ -80,5 +84,40 @@ public class DriverController {
         }catch (java.lang.IllegalArgumentException e){
             return new Result(ResponseStatusEnum.FAILED,"验证码已经失效");
         }
+    }
+    @ApiOperation(value = "生成订单")
+    @PostMapping("/alterOrder")
+    @FilterLogin
+    @ResponseBody
+    /**
+     * @param order 订单表
+     */
+    public Result insertOrder(@RequestBody Orderplus order){
+        //过滤空指针设置为默认
+        if (order.getDriverid()==null){
+            order.setDriverid("");
+        }
+        if (order.getStatime()==null){
+            order.setStatime(new Date());
+            System.out.println(new Date());
+        }
+        //设置默认值
+        //设置状态
+        order.setCode("0");
+        int i = orderplusService.insertOrder(order);
+        if (i==0){
+            return new Result(ResponseStatusEnum.FAILED,"创建订单失败，数据库问题");
+        }
+        return new Result(ResponseStatusEnum.ACCEPT,order);
+    }
+    @ApiOperation(value = "查询订单详情")
+    @GetMapping("/getOrderPlus")
+    @ResponseBody
+    public Result selectOrder(String id){
+        Orderplus orderplus = orderplusService.getDetail(id);
+        if (orderplus==null){
+            return new Result(ResponseStatusEnum.FAILED,"不存在此订单");
+        }
+        return new Result(ResponseStatusEnum.ACCEPT,orderplus);
     }
 }

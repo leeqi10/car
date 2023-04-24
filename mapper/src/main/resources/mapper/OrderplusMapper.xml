@@ -2,12 +2,12 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xhu.mapper.OrderMapper">
+<mapper namespace="com.xhu.mapper.OrderplusMapper">
 
-    <resultMap id="BaseResultMap" type="com.xhu.entity.Order">
+    <resultMap id="BaseResultMap" type="com.xhu.entity.Orderplus">
             <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="userid" column="userid" jdbcType="INTEGER"/>
-            <result property="driverid" column="driverid" jdbcType="INTEGER"/>
+            <result property="userid" column="userid" jdbcType="VARCHAR"/>
+            <result property="driverid" column="driverid" jdbcType="VARCHAR"/>
             <result property="callx" column="callx" jdbcType="VARCHAR"/>
             <result property="cally" column="cally" jdbcType="VARCHAR"/>
             <result property="staddr" column="staddr" jdbcType="VARCHAR"/>
@@ -19,6 +19,7 @@
             <result property="endtime" column="endtime" jdbcType="TIMESTAMP"/>
             <result property="cost" column="cost" jdbcType="DECIMAL"/>
             <result property="milege" column="milege" jdbcType="VARCHAR"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -26,6 +27,6 @@
         callx,cally,staddr,
         endx,endy,endaddr,
         statime,replytime,endtime,
-        cost,milege
+        cost,milege,code
     </sql>
 </mapper>

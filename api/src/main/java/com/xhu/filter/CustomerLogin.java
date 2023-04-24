@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xhu.ResponseStatusEnum;
 import com.xhu.Result;
 import com.xhu.annotation.FilterLogin;
+import com.xhu.entity.Driver;
 import com.xhu.entity.Passenger;
+import com.xhu.mapper.DriverMapper;
 import com.xhu.mapper.PassengerMapper;
 import com.xhu.utils.JwtUtil;
 import com.xhu.utils.RedisCache;
@@ -29,6 +31,8 @@ public class CustomerLogin implements HandlerInterceptor {
     private RedisCache redisCache;
     @Autowired
     private PassengerMapper passengerMapper;
+    @Autowired
+    private DriverMapper driverMapper;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
@@ -38,6 +42,17 @@ public class CustomerLogin implements HandlerInterceptor {
             FilterLogin loginRequired = method.getAnnotation(FilterLogin.class);
             if (loginRequired!=null){
                 String token = request.getHeader("token");
+                //token为空的情况
+                if (token==null){
+                    response.setCharacterEncoding("UTF-8");
+                    response.setContentType("application/json");
+                    PrintWriter out = response.getWriter();
+                    Result result = new Result(ResponseStatusEnum.FAILEDLOGIN);
+                    out.write(new ObjectMapper().writeValueAsString(result));
+                    out.flush();
+                    out.close();
+                    return false;
+                }
                 //解析token
                 String userId;
                 try {
@@ -49,27 +64,48 @@ public class CustomerLogin implements HandlerInterceptor {
                 }
                 //从redis获取用户信息
                 String redisKey = "login:" + userId;
-                Passenger loginUser = redisCache.getCacheObject(redisKey);
-                if (loginUser!=null){
-                    return true;
-                }
-                //为空的情况下
-                if (Objects.isNull(loginUser)){
-                    LambdaQueryWrapper<Passenger> queryWrapper = new LambdaQueryWrapper<>();
-                    queryWrapper.eq(Passenger::getUser, loginUser.getUser());
-                    Passenger user = passengerMapper.selectOne(queryWrapper);
-                    if (user==null){
-                        response.setCharacterEncoding("UTF-8");
-                        response.setContentType("application/json");
-                        PrintWriter out = response.getWriter();
-                        Result result = new Result(ResponseStatusEnum.FAILED);
-                        out.write(new ObjectMapper().writeValueAsString(result));
-                        out.flush();
-                        out.close();
-                        return false;
+                try {
+                    Passenger loginUser = redisCache.getCacheObject(redisKey);
+                    Driver driver =redisCache.getCacheObject(redisKey);
+                    if (loginUser!=null||driver!=null){
+                        return true;
+                    }
+                    //为空的情况下
+                    //乘客
+                    if (Objects.isNull(loginUser)){
+                        LambdaQueryWrapper<Passenger> queryWrapper = new LambdaQueryWrapper<>();
+                        queryWrapper.eq(Passenger::getUser, loginUser.getUser());
+                        Passenger user = passengerMapper.selectOne(queryWrapper);
+                        if (user==null){
+                            response.setCharacterEncoding("UTF-8");
+                            response.setContentType("application/json");
+                            PrintWriter out = response.getWriter();
+                            Result result = new Result(ResponseStatusEnum.FAILED);
+                            out.write(new ObjectMapper().writeValueAsString(result));
+                            out.flush();
+                            out.close();
+                            return false;
+                        }
+                    }
+                    if (Objects.isNull(driver)){
+                        LambdaQueryWrapper<Driver> queryWrapper = new LambdaQueryWrapper<>();
+                        queryWrapper.eq(Driver::getUser, driver.getUser());
+                        Driver user = driverMapper.selectOne(queryWrapper);
+                        if (user==null){
+                            response.setCharacterEncoding("UTF-8");
+                            response.setContentType("application/json");
+                            PrintWriter out = response.getWriter();
+                            Result result = new Result(ResponseStatusEnum.FAILED);
+                            out.write(new ObjectMapper().writeValueAsString(result));
+                            out.flush();
+                            out.close();
+                            return false;
+                        }
                     }
                 }
-
+                catch (NullPointerException e){
+                    e.printStackTrace();
+                }
             }
             return true;
         }

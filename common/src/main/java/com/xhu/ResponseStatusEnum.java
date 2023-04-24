@@ -9,7 +9,9 @@ public enum ResponseStatusEnum {
     SUCCESS(200,true,"成功"),
     FAILED(1,false,"失败"),
     LOGIN(0,true,"登录成功"),
-    REGISTER(0,true,"注册成功")
+    REGISTER(0,true,"注册成功"),
+    ACCEPT(0,true,"订单成功"),
+    FAILEDLOGIN(1,false,"未登录")
     ;
 
     private int i ;

@@ -2,7 +2,6 @@ package com.xhu.service;
 
 import com.xhu.entity.Driver;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xhu.entity.Passenger;
 
 /**
 * @author tq

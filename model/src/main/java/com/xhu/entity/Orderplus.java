@@ -7,15 +7,18 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.checkerframework.checker.formatter.qual.Format;
 
 /**
  * 
- * @TableName order
+ * @TableName orderplus
  */
-@TableName(value ="order")
+@TableName(value ="orderplus")
 @Data
-public class Order implements Serializable {
+public class Orderplus implements Serializable {
     /**
      * 主键，自增。（识别订单）
      */
@@ -25,12 +28,12 @@ public class Order implements Serializable {
     /**
      * 乘客，外键(但不加约束)
      */
-    private Integer userid;
+    private String userid;
 
     /**
      * 司机,外键(但不加约束)
      */
-    private Integer driverid;
+    private String driverid;
 
     /**
      * 出发地经度
@@ -65,16 +68,19 @@ public class Order implements Serializable {
     /**
      * 呼叫时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date statime;
 
     /**
      * 接单时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date replytime;
 
     /**
      * 下车时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date endtime;
 
     /**
@@ -90,7 +96,7 @@ public class Order implements Serializable {
     /**
      * 订单状态
      */
-    private String status;
+    private String code;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -106,7 +112,7 @@ public class Order implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        Order other = (Order) that;
+        Orderplus other = (Orderplus) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getUserid() == null ? other.getUserid() == null : this.getUserid().equals(other.getUserid()))
             && (this.getDriverid() == null ? other.getDriverid() == null : this.getDriverid().equals(other.getDriverid()))
@@ -121,7 +127,7 @@ public class Order implements Serializable {
             && (this.getEndtime() == null ? other.getEndtime() == null : this.getEndtime().equals(other.getEndtime()))
             && (this.getCost() == null ? other.getCost() == null : this.getCost().equals(other.getCost()))
             && (this.getMilege() == null ? other.getMilege() == null : this.getMilege().equals(other.getMilege()))
-            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
+            && (this.getCode() == null ? other.getCode() == null : this.getCode().equals(other.getCode()));
     }
 
     @Override
@@ -142,7 +148,7 @@ public class Order implements Serializable {
         result = prime * result + ((getEndtime() == null) ? 0 : getEndtime().hashCode());
         result = prime * result + ((getCost() == null) ? 0 : getCost().hashCode());
         result = prime * result + ((getMilege() == null) ? 0 : getMilege().hashCode());
-        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getCode() == null) ? 0 : getCode().hashCode());
         return result;
     }
 
@@ -166,7 +172,7 @@ public class Order implements Serializable {
         sb.append(", endtime=").append(endtime);
         sb.append(", cost=").append(cost);
         sb.append(", milege=").append(milege);
-        sb.append(", status=").append(status);
+        sb.append(", code=").append(code);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
