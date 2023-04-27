@@ -70,6 +70,16 @@ public class Driver implements Serializable {
      */
     private String money;
 
+    /**
+     * 经度
+     */
+    private String longitudeform;
+
+    /**
+     * 维度
+     */
+    private String latitudefrom;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -95,7 +105,9 @@ public class Driver implements Serializable {
             && (this.getJsz() == null ? other.getJsz() == null : this.getJsz().equals(other.getJsz()))
             && (this.getCarno() == null ? other.getCarno() == null : this.getCarno().equals(other.getCarno()))
             && (this.getCatype() == null ? other.getCatype() == null : this.getCatype().equals(other.getCatype()))
-            && (this.getMoney() == null ? other.getMoney() == null : this.getMoney().equals(other.getMoney()));
+            && (this.getMoney() == null ? other.getMoney() == null : this.getMoney().equals(other.getMoney()))
+            && (this.getLongitudeform() == null ? other.getLongitudeform() == null : this.getLongitudeform().equals(other.getLongitudeform()))
+            && (this.getLatitudefrom() == null ? other.getLatitudefrom() == null : this.getLatitudefrom().equals(other.getLatitudefrom()));
     }
 
     @Override
@@ -113,6 +125,8 @@ public class Driver implements Serializable {
         result = prime * result + ((getCarno() == null) ? 0 : getCarno().hashCode());
         result = prime * result + ((getCatype() == null) ? 0 : getCatype().hashCode());
         result = prime * result + ((getMoney() == null) ? 0 : getMoney().hashCode());
+        result = prime * result + ((getLongitudeform() == null) ? 0 : getLongitudeform().hashCode());
+        result = prime * result + ((getLatitudefrom() == null) ? 0 : getLatitudefrom().hashCode());
         return result;
     }
 
@@ -133,6 +147,8 @@ public class Driver implements Serializable {
         sb.append(", carno=").append(carno);
         sb.append(", catype=").append(catype);
         sb.append(", money=").append(money);
+        sb.append(", longitudeform=").append(longitudeform);
+        sb.append(", latitudefrom=").append(latitudefrom);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

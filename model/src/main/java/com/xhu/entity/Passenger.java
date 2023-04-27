@@ -55,6 +55,16 @@ public class Passenger implements Serializable {
      */
     private Double money;
 
+    /**
+     * 经度
+     */
+    private String longitudefrom;
+
+    /**
+     * 维度
+     */
+    private String latitudefrom;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -77,7 +87,9 @@ public class Passenger implements Serializable {
             && (this.getTel() == null ? other.getTel() == null : this.getTel().equals(other.getTel()))
             && (this.getIdno() == null ? other.getIdno() == null : this.getIdno().equals(other.getIdno()))
             && (this.getSex() == null ? other.getSex() == null : this.getSex().equals(other.getSex()))
-            && (this.getMoney() == null ? other.getMoney() == null : this.getMoney().equals(other.getMoney()));
+            && (this.getMoney() == null ? other.getMoney() == null : this.getMoney().equals(other.getMoney()))
+            && (this.getLongitudefrom() == null ? other.getLongitudefrom() == null : this.getLongitudefrom().equals(other.getLongitudefrom()))
+            && (this.getLatitudefrom() == null ? other.getLatitudefrom() == null : this.getLatitudefrom().equals(other.getLatitudefrom()));
     }
 
     @Override
@@ -92,6 +104,8 @@ public class Passenger implements Serializable {
         result = prime * result + ((getIdno() == null) ? 0 : getIdno().hashCode());
         result = prime * result + ((getSex() == null) ? 0 : getSex().hashCode());
         result = prime * result + ((getMoney() == null) ? 0 : getMoney().hashCode());
+        result = prime * result + ((getLongitudefrom() == null) ? 0 : getLongitudefrom().hashCode());
+        result = prime * result + ((getLatitudefrom() == null) ? 0 : getLatitudefrom().hashCode());
         return result;
     }
 
@@ -109,6 +123,8 @@ public class Passenger implements Serializable {
         sb.append(", idno=").append(idno);
         sb.append(", sex=").append(sex);
         sb.append(", money=").append(money);
+        sb.append(", longitudefrom=").append(longitudefrom);
+        sb.append(", latitudefrom=").append(latitudefrom);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xhu.ResponseStatusEnum;
 import com.xhu.Result;
 import com.xhu.annotation.FilterLogin;
+import com.xhu.entity.Driver;
 import com.xhu.entity.Passenger;
 import com.xhu.mapper.PassengerMapper;
+import com.xhu.service.PassengerService;
 import com.xhu.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -22,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 public class UserInfoController {
     @Autowired
     private PassengerMapper passengerMapper;
+    @Autowired
+    private PassengerService passengerService;
     @ApiOperation(value = "用户个人信息")
     @GetMapping("/info")
     @ResponseBody
@@ -46,4 +50,18 @@ public class UserInfoController {
         return new Result(ResponseStatusEnum.ok(),passenger);
     }
 
+    @ApiOperation(value = "更新乘客的位置")
+    @PostMapping("/updatePlace")
+    @ResponseBody
+    /**
+     * @param passenger 乘客表单
+     */
+    public Result updatePlace(@RequestBody Passenger passenger) {
+        int i = passengerService.updatePlacePassenger(passenger);
+        if (i==0){
+            return  new Result(ResponseStatusEnum.FAILED,"更新失败");
+        }
+
+        return new Result(ResponseStatusEnum.SUCCESS,passenger);
+    }
 }

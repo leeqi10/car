@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -113,6 +114,9 @@ public class DriverController {
     @ApiOperation(value = "查询订单详情")
     @GetMapping("/getOrderPlus")
     @ResponseBody
+    /**
+     * @id 查询订单的id
+     */
     public Result selectOrder(String id){
         Orderplus orderplus = orderplusService.getDetail(id);
         if (orderplus==null){
@@ -120,4 +124,36 @@ public class DriverController {
         }
         return new Result(ResponseStatusEnum.ACCEPT,orderplus);
     }
+    @ApiOperation(value = "查询所有待接单的订单")
+    @GetMapping("/selectAllOrders")
+    @ResponseBody
+    /**
+     * 查询所有待接单的订单
+     */
+    public Result selectAllOrders(@RequestBody Driver driver){
+        if (driver.getLatitudefrom()==null){
+            driver.setLatitudefrom("0");
+        }
+        if (driver.getLongitudeform()==null){
+            driver.setLongitudeform("0");
+        }
+        List<Orderplus> orderpluses = driverService.orderPlus(driver);
+        return new Result(ResponseStatusEnum.SUCCESS,orderpluses);
+    }
+
+    @ApiOperation(value = "更新司机的位置")
+    @PostMapping("/updatePlace")
+    @ResponseBody
+    /**
+     * @param driver 司机表单
+     */
+    public Result updatePlace(@RequestBody Driver driver){
+        int i =driverService.updatePlaceDriver(driver);
+        if (i==0){
+            return new Result(ResponseStatusEnum.FAILED,"更新失败");
+
+        }
+        return new Result(ResponseStatusEnum.SUCCESS,driver);
+    }
+
 }

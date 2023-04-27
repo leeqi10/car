@@ -3,10 +3,16 @@ package com.xhu.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xhu.entity.Driver;
+import com.xhu.entity.Orderplus;
+import com.xhu.mapper.OrderplusMapper;
 import com.xhu.service.DriverService;
 import com.xhu.mapper.DriverMapper;
+import com.xhu.utils.DistanceUtils;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 /**
 * @author tq
@@ -18,6 +24,8 @@ public class DriverServiceImpl extends ServiceImpl<DriverMapper, Driver>
     implements DriverService{
     @Autowired
     private DriverMapper driverMapper;
+    @Autowired
+    private OrderplusMapper orderplusMapper;
     @Override
     public Driver LoginByUser(String user, String password) {
         //查询用户
@@ -56,6 +64,46 @@ public class DriverServiceImpl extends ServiceImpl<DriverMapper, Driver>
             driverMapper.insert(driver1);
             return true;
         }
+    }
+
+    @Override
+    public int updatePlaceDriver(Driver driver) {
+        //更新自己的位置
+        String user = driver.getUser();
+        String longitude = driver.getLongitudeform();
+        String latitude = driver.getLatitudefrom();
+        int i= driverMapper.updateDriverPlace(longitude,latitude,user);
+
+        return i;
+    }
+
+    @Override
+    public List<Orderplus> orderPlus(Driver driver) {
+        LambdaQueryWrapper<Orderplus> orderplusLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        orderplusLambdaQueryWrapper.eq(Orderplus::getCode,"0");
+        //存放待订单列表
+        List<Orderplus> orderpluses = orderplusMapper.selectList(orderplusLambdaQueryWrapper);
+        //存放订单列表和对应的距离值
+        Map<Orderplus,Integer> orderplusStringMap= new HashMap<>();
+
+        for (Orderplus orderplus:orderpluses){
+            //计算距离单位米
+            if (orderplus.getCallx()==null||orderplus.getCallx().length()==0){
+                orderplus.setCallx("0");
+            }
+            if (orderplus.getCally()==null||orderplus.getCally().length()==0){
+                orderplus.setCally("0");
+            }
+            int number = (int) DistanceUtils.getDistance(Double.parseDouble(orderplus.getCally()),Double.parseDouble(orderplus.getCallx()),Double.parseDouble(driver.getLongitudeform()),Double.parseDouble(driver.getLatitudefrom()));
+            orderplusStringMap.put(orderplus,number);
+        }
+        //排序
+        Map<Orderplus,Integer> orderplusStringMapPlus= DistanceUtils.sortMap(orderplusStringMap);
+
+        Set<Orderplus> set = orderplusStringMapPlus.keySet();
+
+        List<Orderplus> list = new ArrayList<>(set);
+        return list;
     }
 }
 

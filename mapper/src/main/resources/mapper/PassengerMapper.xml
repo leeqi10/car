@@ -20,4 +20,7 @@
         name,tel,idno,
         sex,money
     </sql>
+    <update id="updatePlacePassenger">
+        update passenger set longitudeFrom = #{longitude},latitudeFrom = #{latitude} where user = #{user}
+    </update>
 </mapper>

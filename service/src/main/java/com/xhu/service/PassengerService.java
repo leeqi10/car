@@ -1,5 +1,6 @@
 package com.xhu.service;
 
+import com.xhu.entity.Driver;
 import com.xhu.entity.Passenger;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,4 +13,6 @@ public interface PassengerService extends IService<Passenger> {
      Passenger LoginByUser(String user,String password);
 
      boolean registerByUser(String user,String password);
+
+     int updatePlacePassenger(Passenger passenger);
 }

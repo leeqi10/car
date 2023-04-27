@@ -55,6 +55,15 @@ public class PassengerServiceImpl extends ServiceImpl<PassengerMapper, Passenger
             return true;
         }
     }
+
+    @Override
+    public int updatePlacePassenger(Passenger passenger) {
+        String longitude = passenger.getLongitudefrom();
+        String latitude = passenger.getLatitudefrom();
+        String user = passenger.getUser();
+        int i = passengerMapper.updatePlacePassenger(longitude,latitude,user);
+        return i;
+    }
 }
 
 

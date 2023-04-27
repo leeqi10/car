@@ -24,4 +24,7 @@
         sex,jsz,carno,
         catype,money
     </sql>
+    <update id="updateDriverPlace">
+        update driver set longitudeForm = #{longitude} , latitudeFrom = #{latitude} where user = #{name}
+    </update>
 </mapper>
