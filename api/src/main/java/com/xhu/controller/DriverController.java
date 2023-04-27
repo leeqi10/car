@@ -125,7 +125,7 @@ public class DriverController {
         return new Result(ResponseStatusEnum.ACCEPT,orderplus);
     }
     @ApiOperation(value = "查询所有待接单的订单")
-    @GetMapping("/selectAllOrders")
+    @PostMapping("/selectAllOrders")
     @ResponseBody
     /**
      * 查询所有待接单的订单
