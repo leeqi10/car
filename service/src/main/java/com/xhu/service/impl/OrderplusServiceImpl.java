@@ -1,5 +1,6 @@
 package com.xhu.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xhu.entity.Orderplus;
 import com.xhu.mapper.OrderplusMapper;
@@ -39,5 +40,11 @@ public class OrderplusServiceImpl extends ServiceImpl<OrderplusMapper, Orderplus
             System.out.println("数据库出错");
             return null;
         }
+    }
+
+    @Override
+    public int updateOrderStatus(Orderplus orderplus) {
+        int i = orderMapper.updateCode(orderplus.getId(),orderplus.getCode());
+        return i;
     }
 }

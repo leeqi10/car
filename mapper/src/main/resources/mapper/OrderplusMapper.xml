@@ -29,4 +29,7 @@
         statime,replytime,endtime,
         cost,milege,code
     </sql>
+    <update id="updateCode">
+        update orderplus set code = #{code} where id = #{id}
+    </update>
 </mapper>

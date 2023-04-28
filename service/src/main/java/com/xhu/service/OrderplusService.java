@@ -12,4 +12,6 @@ public interface OrderplusService extends IService<Orderplus> {
     int insertOrder(Orderplus order);
 
     Orderplus getDetail(String i);
+
+    int updateOrderStatus(Orderplus orderplus);
 }

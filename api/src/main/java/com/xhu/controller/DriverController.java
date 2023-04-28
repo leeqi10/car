@@ -155,5 +155,17 @@ public class DriverController {
         }
         return new Result(ResponseStatusEnum.SUCCESS,driver);
     }
-
+    @ApiOperation(value = "更新订单状态")
+    @PostMapping("/updateOrderStatus")
+    @ResponseBody
+    /**
+     * @param driver 司机表单
+     */
+    public Result updateOrderStatus(@RequestBody Orderplus orderplus) {
+        int i = orderplusService.updateOrderStatus(orderplus);
+        if (i<1){
+            return  new Result(ResponseStatusEnum.FAILED,"更新失败");
+        }
+        return new Result(ResponseStatusEnum.SUCCESS,"更新成功");
+    }
 }
