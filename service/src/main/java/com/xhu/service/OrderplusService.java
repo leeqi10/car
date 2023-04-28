@@ -2,6 +2,7 @@ package com.xhu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xhu.entity.Orderplus;
+import com.xhu.vo.Orderplusvo;
 
 /**
 * @author tq
@@ -11,7 +12,7 @@ import com.xhu.entity.Orderplus;
 public interface OrderplusService extends IService<Orderplus> {
     int insertOrder(Orderplus order);
 
-    Orderplus getDetail(String i);
+    Orderplusvo getDetail(String i);
 
     int updateOrderStatus(Orderplus orderplus);
 }

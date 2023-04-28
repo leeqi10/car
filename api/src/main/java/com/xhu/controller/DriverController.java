@@ -10,6 +10,7 @@ import com.xhu.service.DriverService;
 import com.xhu.service.OrderplusService;
 import com.xhu.utils.JwtUtil;
 import com.xhu.utils.RedisCache;
+import com.xhu.vo.Orderplusvo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,7 +119,7 @@ public class DriverController {
      * @id 查询订单的id
      */
     public Result selectOrder(String id){
-        Orderplus orderplus = orderplusService.getDetail(id);
+        Orderplusvo orderplus = orderplusService.getDetail(id);
         if (orderplus==null){
             return new Result(ResponseStatusEnum.FAILED,"不存在此订单");
         }

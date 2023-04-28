@@ -24,7 +24,17 @@
         sex,jsz,carno,
         catype,money
     </sql>
+    <sql id="DriverVo">
+        user,
+        name,tel,idno,
+        sex,jsz,carno,
+        catype,money
+    </sql>
     <update id="updateDriverPlace">
         update driver set longitudeForm = #{longitude} , latitudeFrom = #{latitude} where user = #{name}
     </update>
+    <select id="selectByUser" resultType="com.xhu.entity.Driver">
+        select <include refid="DriverVo"/> from driver where user = #{user}
+
+    </select>
 </mapper>
