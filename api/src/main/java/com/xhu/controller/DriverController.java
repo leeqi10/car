@@ -115,6 +115,7 @@ public class DriverController {
     @ApiOperation(value = "查询订单详情")
     @GetMapping("/getOrderPlus")
     @ResponseBody
+    @FilterLogin
     /**
      * @id 查询订单的id
      */
@@ -128,6 +129,7 @@ public class DriverController {
     @ApiOperation(value = "查询所有待接单的订单")
     @PostMapping("/selectAllOrders")
     @ResponseBody
+    @FilterLogin
     /**
      * 查询所有待接单的订单
      */
@@ -146,6 +148,7 @@ public class DriverController {
     @ApiOperation(value = "更新司机的位置")
     @PostMapping("/updatePlace")
     @ResponseBody
+    @FilterLogin
     /**
      * @param driver 司机表单
      */
@@ -160,6 +163,7 @@ public class DriverController {
     @ApiOperation(value = "更新订单状态")
     @PostMapping("/updateOrderStatus")
     @ResponseBody
+    @FilterLogin
     /**
      * @param driver 司机表单
      */

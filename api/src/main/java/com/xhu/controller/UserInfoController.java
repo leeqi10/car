@@ -53,6 +53,7 @@ public class UserInfoController {
     @ApiOperation(value = "更新乘客的位置")
     @PostMapping("/updatePlace")
     @ResponseBody
+    @FilterLogin
     /**
      * @param passenger 乘客表单
      */
