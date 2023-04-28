@@ -13,7 +13,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OrderplusMapper extends BaseMapper<Orderplus> {
 
-    int updateCode(int id,String code);
+    int updateCode(int id,String driverid,String code);
+
+    int updateMilege(int id,String milege);
 }
 
 

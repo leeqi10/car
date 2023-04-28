@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xhu.entity.Orderplus;
 
 import java.util.List;
+import java.util.Map;
 
 /**
 * @author tq
@@ -19,4 +20,8 @@ public interface DriverService extends IService<Driver> {
     int updatePlaceDriver(Driver driver);
 
     List<Orderplus> orderPlus(Driver driver);
+
+    Map<Orderplus,Integer> orderPlusMap(Driver driver);
+
+    List<Orderplus> orderPlusorder(Driver driver);
 }

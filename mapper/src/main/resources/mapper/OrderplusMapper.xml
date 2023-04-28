@@ -30,6 +30,9 @@
         cost,milege,code
     </sql>
     <update id="updateCode">
-        update orderplus set code = #{code} where id = #{id}
+        update orderplus set code = #{code},driverid = #{driverid} where id = #{id}
+    </update>
+    <update id="updateMilege">
+        update orderplus set milege =#{milege} where id = #{id}
     </update>
 </mapper>

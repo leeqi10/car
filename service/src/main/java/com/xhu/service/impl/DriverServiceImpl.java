@@ -105,6 +105,68 @@ public class DriverServiceImpl extends ServiceImpl<DriverMapper, Driver>
         List<Orderplus> list = new ArrayList<>(set);
         return list;
     }
+
+    @Override
+    public Map<Orderplus, Integer> orderPlusMap(Driver driver) {
+        LambdaQueryWrapper<Orderplus> orderplusLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        orderplusLambdaQueryWrapper.eq(Orderplus::getCode,"0");
+        //存放待订单列表
+        List<Orderplus> orderpluses = orderplusMapper.selectList(orderplusLambdaQueryWrapper);
+        //存放订单列表和对应的距离值
+        Map<Orderplus,Integer> orderplusStringMap= new HashMap<>();
+
+        for (Orderplus orderplus:orderpluses){
+            //计算距离单位米
+            if (orderplus.getCallx()==null||orderplus.getCallx().length()==0){
+                orderplus.setCallx("0");
+            }
+            if (orderplus.getCally()==null||orderplus.getCally().length()==0){
+                orderplus.setCally("0");
+            }
+            int number = (int) DistanceUtils.getDistance(Double.parseDouble(orderplus.getCally()),Double.parseDouble(orderplus.getCallx()),Double.parseDouble(driver.getLongitudeform()),Double.parseDouble(driver.getLatitudefrom()));
+            orderplusStringMap.put(orderplus,number);
+        }
+        //排序
+        Map<Orderplus,Integer> orderplusStringMapPlus= DistanceUtils.sortMap(orderplusStringMap);
+
+        return orderplusStringMapPlus;
+    }
+
+    @Override
+    public List<Orderplus> orderPlusorder(Driver driver) {
+        LambdaQueryWrapper<Orderplus> orderplusLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        orderplusLambdaQueryWrapper.eq(Orderplus::getCode,"0");
+        //存放待订单列表
+        List<Orderplus> orderpluses = orderplusMapper.selectList(orderplusLambdaQueryWrapper);
+
+        //存放之后计算好了的值
+        List<Orderplus> orderpluses1 = new ArrayList<>();
+        for (Orderplus orderplus:orderpluses){
+            //计算距离单位米
+            if (orderplus.getCallx()==null||orderplus.getCallx().length()==0){
+                orderplus.setCallx("0");
+            }
+            if (orderplus.getCally()==null||orderplus.getCally().length()==0){
+                orderplus.setCally("0");
+            }
+            int number = (int) DistanceUtils.getDistance(Double.parseDouble(orderplus.getCally()),Double.parseDouble(orderplus.getCallx()),Double.parseDouble(driver.getLongitudeform()),Double.parseDouble(driver.getLatitudefrom()));
+            //更新里程
+            orderplusMapper.updateMilege(orderplus.getId(),String.valueOf(number));
+            orderpluses1.add(orderplus);
+        }
+        //排序
+        Collections.sort(orderpluses1,(o1, o2) -> {
+            if (o1.getMilege().length()==0){
+                o1.setMilege("0");
+            }
+            if (o2.getMilege().length()==0){
+                o2.setMilege("0");
+            }
+
+           return Integer.parseInt(o1.getMilege())-Integer.parseInt(o2.getMilege());
+        });
+        return orderpluses1;
+    }
 }
 
 

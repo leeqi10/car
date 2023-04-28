@@ -44,7 +44,7 @@ public class OrderplusServiceImpl extends ServiceImpl<OrderplusMapper, Orderplus
 
     @Override
     public int updateOrderStatus(Orderplus orderplus) {
-        int i = orderMapper.updateCode(orderplus.getId(),orderplus.getCode());
+        int i = orderMapper.updateCode(orderplus.getId(),orderplus.getDriverid(),orderplus.getCode());
         return i;
     }
 }
