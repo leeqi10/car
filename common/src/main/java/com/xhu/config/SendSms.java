@@ -13,6 +13,7 @@ import darabonba.core.RequestConfiguration;
 import darabonba.core.client.ClientOverrideConfiguration;
 import darabonba.core.utils.CommonUtil;
 import darabonba.core.TeaPair;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,10 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 @Configuration
 public class SendSms {
+    @Value("${SendSms.accessKeyId}")
+    private String accessKeyId;
+    @Value("${SendSms.accessKeySecret}")
+    private String accessKeySecret;
     public  void send(int code,String phoneNumber) throws Exception {
         // HttpClient Configuration
         /*HttpClient httpClient = new ApacheAsyncHttpClientBuilder()
@@ -43,8 +48,8 @@ public class SendSms {
 
         // Configure Credentials authentication information, including ak, secret, token
         StaticCredentialProvider provider = StaticCredentialProvider.create(Credential.builder()
-                .accessKeyId("LTAI5t9osSXFYRKWDdRhc1mQ")
-                .accessKeySecret("PplZLimFvzclA9HAltgi5FL0qTa5DN")
+                .accessKeyId(accessKeyId)
+                .accessKeySecret(accessKeySecret)
                 //.securityToken("<your-token>") // use STS token
                 .build());
 
