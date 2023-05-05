@@ -1,6 +1,6 @@
 server:
   port: 8021
-  address: localhost
+  address: 0.0.0.0
 spring:
   #redis配置
   redis:

@@ -1,6 +1,7 @@
 # port配置
 server:
   port: 8022
+  address: 0.0.0.0
 #数据源配置
 spring:
   #文件大小设置
