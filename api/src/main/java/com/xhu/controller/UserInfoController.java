@@ -1,10 +1,9 @@
 package com.xhu.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.xhu.ResponseStatusEnum;
-import com.xhu.Result;
+import com.xhu.utils.ResponseStatusEnum;
+import com.xhu.utils.Result;
 import com.xhu.annotation.FilterLogin;
-import com.xhu.entity.Driver;
 import com.xhu.entity.Passenger;
 import com.xhu.mapper.PassengerMapper;
 import com.xhu.service.PassengerService;

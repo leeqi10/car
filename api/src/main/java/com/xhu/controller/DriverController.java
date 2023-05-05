@@ -1,7 +1,7 @@
 package com.xhu.controller;
 
-import com.xhu.ResponseStatusEnum;
-import com.xhu.Result;
+import com.xhu.utils.ResponseStatusEnum;
+import com.xhu.utils.Result;
 import com.xhu.annotation.FilterLogin;
 import com.xhu.config.SendSms;
 import com.xhu.entity.Driver;
