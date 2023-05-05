@@ -1,6 +1,4 @@
-package com.xhu;
-
-import lombok.Data;
+package com.xhu.utils;
 
 /**
  * 枚举反应状态和信息

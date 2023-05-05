@@ -2,8 +2,8 @@ package com.xhu.filter;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xhu.ResponseStatusEnum;
-import com.xhu.Result;
+import com.xhu.utils.ResponseStatusEnum;
+import com.xhu.utils.Result;
 import com.xhu.annotation.FilterLogin;
 import com.xhu.entity.Driver;
 import com.xhu.entity.Passenger;

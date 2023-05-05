@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "SendSms.accessKeyId",
+      "type": "java.lang.String",
+      "description": "Description for SendSms.accessKeyId."
+    },
+    {
+      "name": "SendSms.accessKeySecret",
+      "type": "java.lang.String",
+      "description": "Description for SendSms.accessKeySecret."
+    }
+  ] }

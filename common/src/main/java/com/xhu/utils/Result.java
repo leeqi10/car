@@ -1,4 +1,4 @@
-package com.xhu;
+package com.xhu.utils;
 
 public class Result {
     /**
