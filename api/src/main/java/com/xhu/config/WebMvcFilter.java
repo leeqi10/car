@@ -2,13 +2,26 @@ package com.xhu.config;
 
 import com.xhu.filter.CustomerLogin;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 public class WebMvcFilter extends WebMvcConfigurationSupport {
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        // 设置允许跨域的路径
+        registry.addMapping("/**")
+                // 设置允许跨域请求的域名
+                .allowedOriginPatterns("*")
+                // 是否允许cookie
+                .allowCredentials(true)
+                // 设置允许的请求方式
+                .allowedMethods("GET", "POST", "DELETE", "PUT")
+                // 设置允许的header属性
+                .allowedHeaders("*")
+                // 跨域允许时间
+                .maxAge(3600);
+        super.addCorsMappings(registry);
+    }
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
 
@@ -33,4 +46,5 @@ public class WebMvcFilter extends WebMvcConfigurationSupport {
         registry.addRedirectViewController("/","/static/index.html");
         super.addViewControllers(registry);
     }
+
 }
