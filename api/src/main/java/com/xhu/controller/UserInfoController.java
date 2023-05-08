@@ -71,7 +71,9 @@ public class UserInfoController {
     @PostMapping("/fixMoney")
     @ResponseBody
     @FilterLogin
-    public Result insertOrDeleteMoney(String user,Double money){
+    public Result insertOrDeleteMoney(@RequestBody Passenger passenger){
+        String user = passenger.getUser();
+        double money = passenger.getMoney();
         if (user==null){
             return new Result(ResponseStatusEnum.FAILED,"请填写用户名称");
         }
