@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Api(tags = "个人信息模块")
 @RestController
@@ -63,5 +66,22 @@ public class UserInfoController {
         }
 
         return new Result(ResponseStatusEnum.SUCCESS,passenger);
+    }
+    @ApiOperation(value = "修改余额")
+    @PostMapping("/fixMoney")
+    @ResponseBody
+    @FilterLogin
+    public Result insertOrDeleteMoney(String user,Double money){
+        if (user==null){
+            return new Result(ResponseStatusEnum.FAILED,"请填写用户名称");
+        }
+        double i = passengerService.insertOrDeleteMoney(user,money);
+        if (i<0){
+            return new Result(ResponseStatusEnum.FAILED,"用户不存在或者余额不足");
+        }
+        Map<String,Object> map = new ConcurrentHashMap<>();
+        map.put("user",user);
+        map.put("money",i);
+        return new Result(ResponseStatusEnum.SUCCESS,map);
     }
 }

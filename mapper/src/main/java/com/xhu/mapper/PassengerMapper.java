@@ -15,6 +15,10 @@ public interface PassengerMapper extends BaseMapper<Passenger> {
     int updatePlacePassenger(String longitude,String latitude,String user);
 
     Passenger selectByUser(String user);
+
+    double selectByUserDouble(String user);
+
+    int updateMoneyByUser(String user,double money);
 }
 
 

@@ -28,7 +28,13 @@
     <update id="updatePlacePassenger">
         update passenger set longitudeFrom = #{longitude},latitudeFrom = #{latitude} where user = #{user}
     </update>
+    <update id="updateMoneyByUser">
+        update passenger set money = #{money} where user = #{user}
+    </update>
     <select id="selectByUser" resultType="com.xhu.entity.Passenger">
         select <include refid="passengerVo"/> from passenger where user = #{user}
+    </select>
+    <select id="selectByUserDouble" resultType="java.lang.Double">
+        select money from passenger where user = #{user}
     </select>
 </mapper>

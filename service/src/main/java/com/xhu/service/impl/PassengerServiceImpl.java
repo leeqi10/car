@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
 * @author tq
 * @description 针对表【passenger】的数据库操作Service实现
@@ -63,6 +65,24 @@ public class PassengerServiceImpl extends ServiceImpl<PassengerMapper, Passenger
         String user = passenger.getUser();
         int i = passengerMapper.updatePlacePassenger(longitude,latitude,user);
         return i;
+    }
+
+    @Override
+    public double insertOrDeleteMoney(String user, double money) {
+        //检查是否有这个用户
+        LambdaQueryWrapper<Passenger> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(Passenger::getUser,user);
+        Passenger passenger = passengerMapper.selectOne(lambdaQueryWrapper);
+        if (passenger==null){
+            return -1;
+        }
+        double moneyPlus = passengerMapper.selectByUserDouble(user);
+        //准备修改余额
+        moneyPlus = moneyPlus + money;
+        //注入数据库
+        int i = passengerMapper.updateMoneyByUser(user,moneyPlus);
+
+        return moneyPlus;
     }
 }
 

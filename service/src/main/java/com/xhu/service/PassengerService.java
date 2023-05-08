@@ -3,6 +3,7 @@ package com.xhu.service;
 import com.xhu.entity.Driver;
 import com.xhu.entity.Passenger;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
 * @author tq
@@ -15,4 +16,9 @@ public interface PassengerService extends IService<Passenger> {
      boolean registerByUser(String user,String password);
 
      int updatePlacePassenger(Passenger passenger);
+
+     @Transactional
+     double insertOrDeleteMoney(String user,double money);
+
+
 }
