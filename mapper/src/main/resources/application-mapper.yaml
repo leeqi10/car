@@ -11,9 +11,9 @@ spring:
       max-request-size: 500MB
   #数据库资源设置 私密
   datasource:
-    url: jdbc:mysql://8.130.74.237:3306/car?characterEncoding=utf-8&serverTimezone=GMT%2B8
-    username: car
-    password: 123456
+    url:
+    username:
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
 #mybatis-plus配置
 mybatis-plus:

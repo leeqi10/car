@@ -7,7 +7,7 @@ spring:
     # redis数据库索引(默认为0)，我们使用索引为1的数据库，避免和其他数据库冲突
     database: 1
     # redis服务器地址（默认为loaclhost）
-    host: 8.130.74.237
+    host:
     # redis端口（默认为6379）
     port: 6379
     # redis访问密码（默认为空）
@@ -30,5 +30,5 @@ spring:
     time-zone: GMT+8
 #自定义key设置
 SendSms:
-  accessKeyId: LTAI5t9osSXFYRKWDdRhc1mQ
-  accessKeySecret: PplZLimFvzclA9HAltgi5FL0qTa5DN
+  accessKeyId:
+  accessKeySecret:
