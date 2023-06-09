@@ -29,5 +29,5 @@ spring:
     time-zone: GMT+8
 #自定义key设置
 SendSms:
-  accessKeyId: LTAI5t9osSXFYRKWDdRhc1mQ
-  accessKeySecret: PplZLimFvzclA9HAltgi5FL0qTa5DN
+  accessKeyId:
+  accessKeySecret:
